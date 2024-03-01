@@ -76,6 +76,9 @@ namespace StarterAssets
 		public GameObject projectile;
 		public GameObject _projectileSpawnLocation;
 
+		// Duck Spawn test
+		public GameObject duckSpawner;
+
 	
 #if ENABLE_INPUT_SYSTEM
 		private PlayerInput _playerInput;
@@ -128,6 +131,7 @@ namespace StarterAssets
 			GroundedCheck();
 			Move();
 			Shoot();
+			BeginDuckSpawn();
 		}
 
 		private void LateUpdate()
@@ -264,9 +268,13 @@ namespace StarterAssets
 			// Test whether the shoot input has been detected
 			if(_input.shoot)
 			{
-                GameObject projectile = ObjectPool.SharedInstance.GetPooledObject();
+				// Get an exiting Projectile from the ObjectPool
+                GameObject projectile = ObjectPool.SharedInstance.GetPooledProjectile();
                 if (projectile != null)
                 {
+					// Set the position and rotation of the projectile to the spawn location
+					// and the camera's rotation, then activate the Projectile.
+					// The Projectile script handles the momentum when the object is enabled
                     projectile.transform.position = _projectileSpawnLocation.transform.position;
                     projectile.transform.rotation = CinemachineCameraTarget.transform.rotation;
                     projectile.SetActive(true);
@@ -294,5 +302,13 @@ namespace StarterAssets
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
-	}
+
+        private void BeginDuckSpawn()
+		{
+			if(Input.GetKeyDown(KeyCode.E))
+			{
+				duckSpawner.GetComponent<DuckSpawner>().SpawnDucks();
+			}
+		}
+    }
 }

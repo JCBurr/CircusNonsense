@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float shootForce = 10;
+    public float shootForce = 7;
 
     public float delay  = 2;
 
@@ -15,15 +15,15 @@ public class Projectile : MonoBehaviour
         StartCoroutine(DeactivateRoutine(delay));
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Reset the moving Rigidbody
-        Rigidbody rBody = GetComponent<Rigidbody>();
-        rBody.velocity = new Vector3(0f, 0f, 0f);
-        rBody.angularVelocity = new Vector3(0f, 0f, 0f);
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    // Reset the moving Rigidbody
+    //    Rigidbody rBody = GetComponent<Rigidbody>();
+    //    rBody.velocity = new Vector3(0f, 0f, 0f);
+    //    rBody.angularVelocity = new Vector3(0f, 0f, 0f);
 
-        gameObject.SetActive(false);
-    }
+    //    gameObject.SetActive(false);
+    //}
 
     IEnumerator DeactivateRoutine(float delay)
     {

@@ -5,9 +5,14 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool SharedInstance;
-    public List<GameObject> pooledObjects;
-    public GameObject objectToPool;
-    public int amountToPool;
+    public List<GameObject> pooledProjectileObjects;
+    public List<GameObject> pooledDuckObjects;
+
+    public GameObject projectilePool;
+    public GameObject duckPool;
+
+    public int projectilesToPool;
+    public int ducksToPool;
 
     void Awake()
     {
@@ -16,26 +21,56 @@ public class ObjectPool : MonoBehaviour
 
     void Start()
     {
-        pooledObjects = new List<GameObject>();
-        GameObject tmp;
-        for (int i = 0; i < amountToPool; i++)
-        {
-            tmp = Instantiate(objectToPool);
-            tmp.SetActive(false);
-            pooledObjects.Add(tmp);
-        }
+        InstatiateProjectilePool();
+        InstatiateDuckPool();
     }
 
-    public GameObject GetPooledObject()
+    public GameObject GetPooledProjectile()
     {
-        for (int i = 0; i < amountToPool; i++)
+        for (int i = 0; i < projectilesToPool; i++)
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            if (!pooledProjectileObjects[i].activeInHierarchy)
             {
-                return pooledObjects[i];
+                return pooledProjectileObjects[i];
             }
         }
         return null;
+    }
+
+    public GameObject GetPooledDuck()
+    {
+        for (int i = 0; i < ducksToPool; i++)
+        {
+            if (!pooledDuckObjects[i].activeInHierarchy)
+            {
+                return pooledDuckObjects[i];
+            }
+        }
+        return null;
+    }
+
+    private void InstatiateProjectilePool()
+    {
+        pooledProjectileObjects = new List<GameObject>();
+        GameObject tmp;
+        for (int i = 0; i < projectilesToPool; i++)
+        {
+            tmp = Instantiate(projectilePool);
+            tmp.SetActive(false);
+            pooledProjectileObjects.Add(tmp);
+        }
+    }
+
+    private void InstatiateDuckPool()
+    {
+        pooledDuckObjects = new List<GameObject>();
+        GameObject tmp;
+        for (int i = 0; i < ducksToPool; i++)
+        {
+            tmp = Instantiate(duckPool);
+            tmp.SetActive(false);
+            pooledDuckObjects.Add(tmp);
+        }
     }
 
 }
