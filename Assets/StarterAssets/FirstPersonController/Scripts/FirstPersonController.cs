@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -78,6 +79,10 @@ namespace StarterAssets
 
 		// Duck Spawn test
 		public GameObject duckSpawner;
+
+		// Aim ray cast teset
+		[SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
+		[SerializeField] private Vector3 worldAimTarget;
 
 	
 #if ENABLE_INPUT_SYSTEM
@@ -268,18 +273,34 @@ namespace StarterAssets
 			// Test whether the shoot input has been detected
 			if(_input.shoot)
 			{
-				// Get an exiting Projectile from the ObjectPool
-                GameObject projectile = ObjectPool.SharedInstance.GetPooledProjectile();
-                if (projectile != null)
-                {
-					// Set the position and rotation of the projectile to the spawn location
-					// and the camera's rotation, then activate the Projectile.
-					// The Projectile script handles the momentum when the object is enabled
-                    projectile.transform.position = _projectileSpawnLocation.transform.position;
-                    projectile.transform.rotation = CinemachineCameraTarget.transform.rotation;
-                    projectile.SetActive(true);
-                    _input.shoot = false;
+				// Get the centre of the screen, where the crosshair points
+				Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+
+				// Shoot a raycast towards the calculated screen centre point
+				Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+				// If the raycast collides with something, creates a rayCastHit at that location
+				// Use the rayCastHit location as the aiming target for the projectile
+				if(Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
+				{
+					worldAimTarget = raycastHit.point;
+					Vector3 aimDirection = (worldAimTarget - _projectileSpawnLocation.transform.position).normalized;
+                    // Get an exiting Projectile from the ObjectPool
+                    GameObject projectile = ObjectPool.SharedInstance.GetPooledProjectile();
+                    if (projectile != null)
+                    {
+
+                        // Set the position and rotation of the projectile to the spawn location
+                        // and the camera's rotation, then activate the Projectile.
+                        projectile.transform.position = _projectileSpawnLocation.transform.position;
+                        projectile.transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+
+                        // The Projectile script handles momentum when the object is enabled
+                        projectile.SetActive(true);
+                        _input.shoot = false;
+                    }
                 }
+
 			}
 
 		}
