@@ -289,7 +289,6 @@ namespace StarterAssets
                     GameObject projectile = ObjectPool.SharedInstance.GetPooledProjectile();
                     if (projectile != null)
                     {
-
                         // Set the position and rotation of the projectile to the spawn location
                         // and the camera's rotation, then activate the Projectile.
                         projectile.transform.position = _projectileSpawnLocation.transform.position;
@@ -326,6 +325,10 @@ namespace StarterAssets
 
         private void BeginDuckSpawn()
 		{
+			// Spawn ducks when user presses the "E" key on a keyboard
+			// TODO - replace with other activation parameter
+			// e.g. player presses a "Start duck shoot minigame" button in the gameworld
+			// UnityEvents would make sense for that
 			if(Input.GetKeyDown(KeyCode.E))
 			{
 				duckSpawner.GetComponent<DuckSpawner>().SpawnDucks();

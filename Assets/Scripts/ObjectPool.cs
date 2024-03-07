@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
+    // SharedInstance is a Singleton object to control the various ObjectPools
     public static ObjectPool SharedInstance;
+
+    // Pooled object lists
     public List<GameObject> pooledProjectileObjects;
     public List<GameObject> pooledDuckObjects;
 
+    // References to prefabs to be pooled
     public GameObject projectilePool;
     public GameObject duckPool;
 
+    // Number of objects of each type to pool
     public int projectilesToPool;
     public int ducksToPool;
 
     void Awake()
     {
+        // Create Singleton instance
         SharedInstance = this;
     }
 
