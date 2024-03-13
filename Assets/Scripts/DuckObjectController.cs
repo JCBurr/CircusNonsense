@@ -40,6 +40,17 @@ public class DuckObjectController : MonoBehaviour
             // Release the projectile back to the pool
             gameObject.SetActive(false);
         }
+
+        if (collision.gameObject.tag == "ShootingGallery")
+        {
+            // Reset the moving Rigidbody
+            Rigidbody rBody = GetComponent<Rigidbody>();
+            rBody.velocity = new Vector3(0f, 0f, 0f);
+            rBody.angularVelocity = new Vector3(0f, 0f, 0f);
+
+            // Release the projectile back to the pool
+            gameObject.SetActive(false);
+        }
     }
     
 

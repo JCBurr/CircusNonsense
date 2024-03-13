@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,14 @@ public class DuckSpawner : MonoBehaviour
 {
 
     public GameObject[] duckSpawnLocationList;
+
+    // The parent GameObject for the duck UI - disabled by default
+    public GameObject duckScoreUIParent;
+
+    // Get the ShootingGalleryInit GameObject
+    public GameObject shootingGalleryInit;
+
+    public event EventHandler OnFinishDuckShootingMinigame;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +32,10 @@ public class DuckSpawner : MonoBehaviour
             // Duck spawn locations are empty GameObjects
             duckSpawnLocationList[i] = gameObject.transform.GetChild(i).gameObject;
         }
+
+        // Setup the subscriber to the minigame start event
+        ShootingGalleryInit startShootingMinigame = shootingGalleryInit.GetComponent<ShootingGalleryInit>();
+        startShootingMinigame.OnStartDuckShootingMinigame += StartDuckShootingMinigame;
 
     }
 
@@ -66,5 +79,24 @@ public class DuckSpawner : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
+
+        //After spawning the last duck in the sequence, wait 5 seconds before ending the minigame
+        yield return new WaitForSeconds(5);
+
+        // Call the "OnFinishDuckShootingMinigame" event
+        // This should deactivate the UI element (maybe post a "Your score screen")
+        // and the ShootingGalleryInit class will subscribe to this event and reactivate the trigger,
+        // so the minigame can be restarted.
+        OnFinishDuckShootingMinigame?.Invoke(this, EventArgs.Empty);
+        duckScoreUIParent.SetActive(false);
     }
+
+    private void StartDuckShootingMinigame(object sender, EventArgs e)
+    {
+        // Subscribed to the event from the ShootingGalleryInit class
+        // Begin spawning ducks and activate the minigame UI
+        SpawnDucks();
+        duckScoreUIParent.SetActive(true);
+    }
+
 }

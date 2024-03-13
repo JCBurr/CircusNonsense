@@ -77,9 +77,6 @@ namespace StarterAssets
 		public GameObject projectile;
 		public GameObject _projectileSpawnLocation;
 
-		// Duck Spawn test
-		public GameObject duckSpawner;
-
 		// Aim ray cast teset
 		[SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
 		[SerializeField] private Vector3 worldAimTarget;
@@ -136,7 +133,6 @@ namespace StarterAssets
 			GroundedCheck();
 			Move();
 			Shoot();
-			BeginDuckSpawn();
 		}
 
 		private void LateUpdate()
@@ -323,16 +319,5 @@ namespace StarterAssets
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
 
-        private void BeginDuckSpawn()
-		{
-			// Spawn ducks when user presses the "E" key on a keyboard
-			// TODO - replace with other activation parameter
-			// e.g. player presses a "Start duck shoot minigame" button in the gameworld
-			// UnityEvents would make sense for that
-			if(Input.GetKeyDown(KeyCode.E))
-			{
-				duckSpawner.GetComponent<DuckSpawner>().SpawnDucks();
-			}
-		}
     }
 }
