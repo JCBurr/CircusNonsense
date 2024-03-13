@@ -9,9 +9,6 @@ public class DuckSpawner : MonoBehaviour
 
     public GameObject[] duckSpawnLocationList;
 
-    // The parent GameObject for the duck UI - disabled by default
-    public GameObject duckScoreUIParent;
-
     // Get the ShootingGalleryInit GameObject
     public GameObject shootingGalleryInit;
 
@@ -88,7 +85,6 @@ public class DuckSpawner : MonoBehaviour
         // and the ShootingGalleryInit class will subscribe to this event and reactivate the trigger,
         // so the minigame can be restarted.
         OnFinishDuckShootingMinigame?.Invoke(this, EventArgs.Empty);
-        duckScoreUIParent.SetActive(false);
     }
 
     private void StartDuckShootingMinigame(object sender, EventArgs e)
@@ -96,7 +92,6 @@ public class DuckSpawner : MonoBehaviour
         // Subscribed to the event from the ShootingGalleryInit class
         // Begin spawning ducks and activate the minigame UI
         SpawnDucks();
-        duckScoreUIParent.SetActive(true);
     }
 
 }
