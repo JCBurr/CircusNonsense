@@ -48,7 +48,7 @@ public class DuckSpawner : MonoBehaviour
     IEnumerator SpawnDuckRoutine()
     {
         // Number of loops = number of ducks to spawn at each location
-        for (int j = 0; j <= 5; j++)
+        for (int j = 0; j < 2; j++)
         {
             // Iterate through all duck spawn locations.
             for (int i = 0; i < duckSpawnLocationList.Length; i++)
@@ -78,7 +78,7 @@ public class DuckSpawner : MonoBehaviour
         }
 
         //After spawning the last duck in the sequence, wait 5 seconds before ending the minigame
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
 
         // Call the "OnFinishDuckShootingMinigame" event
         // This should deactivate the UI element (maybe post a "Your score screen")

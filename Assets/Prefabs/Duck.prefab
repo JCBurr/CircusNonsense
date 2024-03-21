@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementTargetDirection: 0
+  duckScoreChannel: {fileID: 11400000, guid: 124191386f5343345baead84b7586833, type: 2}
 --- !u!54 &1371471293497302967
 Rigidbody:
   m_ObjectHideFlags: 0
