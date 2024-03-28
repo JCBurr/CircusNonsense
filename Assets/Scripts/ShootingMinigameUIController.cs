@@ -16,15 +16,15 @@ public class ShootingMinigameUIController : MonoBehaviour
     public GameObject duckScoreUIParent;
 
     public GameObject duckSpawner;
-    public GameObject shootingGalleryInit;
+    public GameObject shootingGalleryStartButton;
 
     public TextMeshProUGUI duckScoreText;
     public int duckScore;
 
     private void Start()
     {
-        // Subscribe to the "Start duck shooting minigame" event
-        ShootingGalleryInit startShootingMinigame = shootingGalleryInit.GetComponent<ShootingGalleryInit>();
+        // Setup the subscriber to the minigame start event
+        StartShootingMinigameButton startShootingMinigame = shootingGalleryStartButton.GetComponent<StartShootingMinigameButton>();
         startShootingMinigame.OnStartDuckShootingMinigame += StartDuckShootingMinigame;
 
         // Subscribe to the "finish duck shooting minigame" event

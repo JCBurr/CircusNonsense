@@ -133,6 +133,7 @@ namespace StarterAssets
 			GroundedCheck();
 			Move();
 			Shoot();
+			Interact();
 		}
 
 		private void LateUpdate()
@@ -300,7 +301,30 @@ namespace StarterAssets
 
 		}
 
-            private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+		private void Interact()
+		{
+			// Test whether the shoot input has been detected
+			if (_input.interact)
+			{
+				Debug.Log("Interact input detected");
+				// Get the centre of the screen, where the crosshair points
+				Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+
+				// Shoot a raycast towards the calculated screen centre point
+				Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+				// If the raycast collides with something, creates a rayCastHit at that location
+				// Use the rayCastHit location as the aiming target for the projectile
+				if (Physics.Raycast(ray, out RaycastHit raycastHit, 10.0f, aimColliderLayerMask)
+					&& raycastHit.transform.gameObject.tag == "Interactable")
+				{
+					raycastHit.transform.gameObject.GetComponent<StartShootingMinigameButton>().Interact();
+                }
+			}
+			_input.interact = false;
+		}
+
+        private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;

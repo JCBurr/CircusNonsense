@@ -9,8 +9,8 @@ public class DuckSpawner : MonoBehaviour
 
     public GameObject[] duckSpawnLocationList;
 
-    // Get the ShootingGalleryInit GameObject
-    public GameObject shootingGalleryInit;
+    // Get the StartShootingMinigame GameObject
+    public GameObject shootingGalleryStartButton;
 
     public event EventHandler OnFinishDuckShootingMinigame;
 
@@ -31,7 +31,7 @@ public class DuckSpawner : MonoBehaviour
         }
 
         // Setup the subscriber to the minigame start event
-        ShootingGalleryInit startShootingMinigame = shootingGalleryInit.GetComponent<ShootingGalleryInit>();
+        StartShootingMinigameButton startShootingMinigame = shootingGalleryStartButton.GetComponent<StartShootingMinigameButton>();
         startShootingMinigame.OnStartDuckShootingMinigame += StartDuckShootingMinigame;
 
     }
@@ -82,14 +82,14 @@ public class DuckSpawner : MonoBehaviour
 
         // Call the "OnFinishDuckShootingMinigame" event
         // This should deactivate the UI element (maybe post a "Your score screen")
-        // and the ShootingGalleryInit class will subscribe to this event and reactivate the trigger,
+        // and the StartShootingMinigame class will subscribe to this event and reactivate the trigger,
         // so the minigame can be restarted.
         OnFinishDuckShootingMinigame?.Invoke(this, EventArgs.Empty);
     }
 
     private void StartDuckShootingMinigame(object sender, EventArgs e)
     {
-        // Subscribed to the event from the ShootingGalleryInit class
+        // Subscribed to the event from the StartShootingMinigame class
         // Begin spawning ducks and activate the minigame UI
         SpawnDucks();
     }

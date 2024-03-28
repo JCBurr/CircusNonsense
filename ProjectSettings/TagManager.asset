@@ -8,6 +8,7 @@ TagManager:
   - Projectile
   - GunTransform
   - ShootingGallery
+  - Interactable
   layers:
   - Default
   - TransparentFX
